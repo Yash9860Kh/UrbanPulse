@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UrbanPulse | Neighbour Corner</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="city-health.html">City Health</a></li>
+<li><a href="energy-nexus.html">Energy Nexus</a></li>
+<li><a href="schemes.html">Schemes</a></li>
+<li><a href="traffic.html">Traffic</a></li>
+<li><a href="neighbour.html">Neighbour Corner</a></li>
+</ul>
+
+<div class="city-display">
+Pune
+</div>
+
+</nav>
+
+
+
+<div class="container">
+
+<h1 class="page-title">Neighbour Corner</h1>
+
+<div class="neighbour-layout">
+
+<!-- SIDEBAR -->
+
+<div class="neighbour-sidebar">
+
+<div class="menu-item active" onclick="openModule('report')">
+📢 Report Issue
+</div>
+
+<div class="menu-item" onclick="openModule('cool')">
+🌳 Cool Spots
+</div>
+
+<div class="menu-item" onclick="openModule('share')">
+♻ Share Resources
+</div>
+
+<div class="menu-item" onclick="openModule('cycle')">
+🚲 Safe Cycling
+</div>
+
+<div class="menu-item" onclick="openModule('solar')">
+☀ Community Solar
+</div>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="neighbour-content">
+
+<!-- REPORT ISSUE -->
+
+<div id="report" class="module active">
+
+<h2>Report Local Issues</h2>
+
+<p class="module-text">
+Citizens can report potholes, garbage dumping, broken lights and other issues.  
+Location and photo will help city authorities resolve them quickly.
+</p>
+
+<div class="upload-box">
+📷 Upload Image of Issue
+</div>
+
+<button>Submit Report</button>
+
+</div>
+
+
+
+<!-- COOL SPOTS -->
+
+<div id="cool" class="module">
+
+<h2>Find Cool Areas</h2>
+
+<p class="module-text">
+UrbanPulse helps citizens find shaded parks, gardens and cooling centers during extreme heat.
+</p>
+
+<div class="map-placeholder">
+🌳 Cooling Map Placeholder
+</div>
+
+<button>View Map</button>
+
+</div>
+
+
+
+<!-- RESOURCE SHARE -->
+
+<div id="share" class="module">
+
+<h2>Neighbour Resource Sharing</h2>
+
+<p class="module-text">
+Restaurants and citizens can donate excess food, compost, tools and other reusable resources.
+</p>
+
+<div class="share-card">
+
+<h3>Organic Compost Available</h3>
+
+<p>
+📍 500 meters away  
+Daily Greens Cafe
+</p>
+
+<button>Claim</button>
+
+</div>
+
+</div>
+
+
+
+<!-- CYCLING -->
+
+<div id="cycle" class="module">
+
+<h2>Safe Cycling Routes</h2>
+
+<p class="module-text">
+See which routes are safest for cycling and help vote for new bike lanes in your city.
+</p>
+
+<button>View Routes</button>
+
+</div>
+
+
+
+<!-- SOLAR -->
+
+<div id="solar" class="module">
+
+<h2>Community Solar Initiative</h2>
+
+<p class="module-text">
+Join neighbours to install solar panels together and reduce electricity costs.
+</p>
+
+<div class="progress-bar">
+
+<div class="progress-fill"></div>
+
+</div>
+
+<p>34 neighbours joined. 16 more needed.</p>
+
+<button>Join Program</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+function openModule(id){
+
+document.querySelectorAll(".module").forEach(m=>{
+m.classList.remove("active")
+})
+
+document.querySelectorAll(".menu-item").forEach(i=>{
+i.classList.remove("active")
+})
+
+document.getElementById(id).classList.add("active")
+
+event.currentTarget.classList.add("active")
+
+}
+
+</script>
+
+</body>
+</html>

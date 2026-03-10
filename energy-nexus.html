@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Energy Nexus</title>
+
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<h1 class="logo">UrbanPulse</h1>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="city-health.html">City Health</a></li>
+<li><a href="energy-nexus.html">Energy Nexus</a></li>
+<li><a href="schemes.html">Schemes</a></li>
+<li><a href="traffic.html">Traffic</a></li>
+<li><a href="neighbour.html">Neighbour Corner</a></li>
+</ul>
+<div class="city-display">
+Pune
+</div>
+</nav>
+
+
+<section class="container">
+
+<h2 class="page-title">Energy Nexus</h2>
+
+
+<div class="card-grid">
+
+<div class="card">
+<h3>Electricity</h3>
+<p>Production : 900 MW</p>
+<p>Consumption : 1200 MW</p>
+</div>
+
+
+<div class="card">
+<h3>Water</h3>
+<p>Usage : 320 ML/day</p>
+<p>Ideal : 280 ML/day</p>
+</div>
+
+
+<div class="card">
+<h3>Waste</h3>
+<p>Generated : 1800 tons</p>
+<p>Recycled : 620 tons</p>
+<p>Landfill : 900 tons</p>
+</div>
+
+
+<div class="card">
+<h3>Sustainable Energy</h3>
+<p>Solar : 220 MW</p>
+<p>Hydro : 140 MW</p>
+<p>Wind : 80 MW</p>
+</div>
+
+</div>
+
+
+<div class="charts-grid">
+
+<div class="chart-card">
+<h3>Energy Production</h3>
+<canvas id="energyChart"></canvas>
+</div>
+
+<div class="chart-card">
+<h3>Water Usage</h3>
+<canvas id="waterChart"></canvas>
+</div>
+
+<div class="chart-card">
+<h3>Waste Management</h3>
+<canvas id="wasteChart"></canvas>
+</div>
+
+</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/energy-charts.js"></script>
+</body>
+</html>
