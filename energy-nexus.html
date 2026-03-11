@@ -16,7 +16,10 @@
 
 <nav class="navbar">
 
-<h1 class="logo">UrbanPulse</h1>
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
 
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
@@ -26,8 +29,8 @@
 <li><a href="traffic.html">Traffic</a></li>
 <li><a href="neighbour.html">Neighbour Corner</a></li>
 </ul>
-<div class="city-display">
-Pune
+<div class="city-display" id="navCityName">
+    Loading...
 </div>
 </nav>
 
@@ -92,5 +95,12 @@ Pune
 </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/energy-charts.js"></script>
+<script>document.addEventListener("DOMContentLoaded", () => {
+    const city = localStorage.getItem("city") || "Pune";
+    const navCity = document.getElementById("navCityName");
+    if (navCity) {
+        navCity.innerText = city;
+    }
+});</script>
 </body>
 </html>
