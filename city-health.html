@@ -16,7 +16,10 @@
 
 <nav class="navbar">
 
-<h1 class="logo">UrbanPulse</h1>
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
 
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
@@ -26,8 +29,8 @@
 <li><a href="traffic.html">Traffic</a></li>
 <li><a href="neighbour.html">Neighbour Corner</a></li>
 </ul>
-<div class="city-display">
-Pune
+<div class="city-display" id="navCityName">
+    Loading...
 </div>
 </nav>
 <div class="container">
@@ -41,60 +44,50 @@ Pune
 
 <div class="card">
 <h3>Weather</h3>
-<p>28°C Sunny</p>
+<p id="weatherData">Loading...</p>
 </div>
 
 <div class="card">
 <h3>Air Quality Index</h3>
-<p>Moderate</p>
+<p id="aqiData">Loading...</p>
 </div>
 
 <div class="card">
 <h3>CO₂ Emissions</h3>
-<p>420 tons/day</p>
+<p id="co2Data">Loading...</p>
 </div>
-
 <div class="card">
 <h3>Sustainability Score</h3>
-<p class="score">78 / 100</p>
+<p class="score" id="scoreData">Loading...</p>
 </div>
-
 </div>
+<br><br>
 
-
-<h3 class="section-title">Green Areas & Oxygen Sources</h3>
+<h2 class="page-title">Green Areas & Oxygen Sources</h2>
 
 <table>
 
+<thead>
 <tr>
 <th>Location</th>
 <th>Type</th>
 <th>Oxygen Output</th>
 </tr>
+</thead>
 
-<tr>
-<td>Empress Garden</td>
-<td>Garden</td>
-<td>High</td>
-</tr>
+<tbody id="greenTable">
 
-<tr>
-<td>Pashan Lake</td>
-<td>Wetland</td>
-<td>Medium</td>
-</tr>
-
-<tr>
-<td>Baner Hill</td>
-<td>Forest</td>
-<td>High</td>
-</tr>
-
+</tbody>
 </table>
-
 </section>
 </div>
-<script src="js/city.js"></script>
-
+<script src="js/city-health.js"></script>
+<script>document.addEventListener("DOMContentLoaded", () => {
+    const city = localStorage.getItem("city") || "Pune";
+    const navCity = document.getElementById("navCityName");
+    if (navCity) {
+        navCity.innerText = city;
+    }
+});</script>
 </body>
 </html>
