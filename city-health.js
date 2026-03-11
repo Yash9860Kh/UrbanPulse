@@ -73,7 +73,7 @@ table.innerHTML += row;
 // WEATHER API
 // =========================
 
-const apiKey = "076777de2252f718d7b2a97c81aa9d18";
+const apiKey = "API_KEY";
 
 const weatherUrl =
 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
@@ -101,7 +101,7 @@ document.getElementById("weatherData").innerText =
 // AQI API
 // =========================
 
-const aqiToken = "6244ae3c82565c374fd024e143372e219decf13d";
+const aqiToken = "API_KEY";
 
 const aqiUrl =
 `https://api.waqi.info/feed/${city}/?token=${aqiToken}`;
@@ -131,3 +131,4 @@ document.getElementById("aqiData").innerText =
 }
 
 });
+
