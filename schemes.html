@@ -16,7 +16,10 @@
 
 <nav class="navbar">
 
-<h1 class="logo">UrbanPulse</h1>
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
 
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
@@ -26,9 +29,8 @@
 <li><a href="traffic.html">Traffic</a></li>
 <li><a href="neighbour.html">Neighbour Corner</a></li>
 </ul>
-<div class="city-display">
-Pune
-</div>
+<div class="city-display" id="navCityName">
+    Loading...
 </nav>
 
 <section class="container">
@@ -48,51 +50,103 @@ Pune
 
 <div class="card-grid" id="schemesContainer">
 
-<div class="card scheme gov">
-
-<h3>Solar Rooftop Scheme</h3>
-
-<p>Provider : Government</p>
-
-<p>Last Date : 30 Aug</p>
-
-<button>View Details</button>
-
-</div>
-
-
-<div class="card scheme ngo">
-
-<h3>Tree Plantation Drive</h3>
-
-<p>Provider : NGO</p>
-
-<p>Last Date : 10 Sept</p>
-
-<button>View Details</button>
-
-</div>
-
-
-<div class="card scheme private">
-
-<h3>Smart Water Monitoring</h3>
-
-<p>Provider : Private</p>
-
-<p>Last Date : 1 Oct</p>
-
-<button>View Details</button>
-
-</div>
-
 </div>
 
 </section>
 
-<script src="js/schemes.js"></script>
 
-<script src="js/city.js"></script>
+<script>
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const city = localStorage.getItem("city") || "Pune"
+
+document.getElementById("navCityName").innerText = city
+
+const schemesContainer = document.getElementById("schemesContainer")
+
+const schemesData = {
+
+Pune:[
+{name:"Pune S1 Solar Homes",type:"gov",date:"30 Aug"},
+{name:"Pune S2 Green Transport",type:"ngo",date:"12 Sept"},
+{name:"Pune S3 Water Saving",type:"private",date:"5 Oct"},
+{name:"Pune S4 Clean Streets",type:"gov",date:"20 Sept"},
+{name:"Pune S5 Tree Boost",type:"ngo",date:"10 Oct"}
+],
+
+Mumbai:[
+{name:"Mumbai S1 Solar Homes",type:"gov",date:"25 Aug"},
+{name:"Mumbai S2 Coastal Clean",type:"ngo",date:"15 Sept"},
+{name:"Mumbai S3 Smart Drainage",type:"private",date:"2 Oct"},
+{name:"Mumbai S4 EV Promotion",type:"gov",date:"18 Sept"},
+{name:"Mumbai S5 Mangrove Protection",type:"ngo",date:"28 Sept"}
+],
+
+Delhi:[
+{name:"Delhi S1 Solar Homes",type:"gov",date:"30 Aug"},
+{name:"Delhi S2 Air Quality Drive",type:"ngo",date:"12 Sept"},
+{name:"Delhi S3 Smart Water",type:"private",date:"3 Oct"},
+{name:"Delhi S4 Green Schools",type:"gov",date:"15 Sept"},
+{name:"Delhi S5 Tree Shield",type:"ngo",date:"10 Oct"}
+],
+
+Bangalore:[
+{name:"Bangalore S1 Solar Homes",type:"gov",date:"28 Aug"},
+{name:"Bangalore S2 Lake Revival",type:"ngo",date:"18 Sept"},
+{name:"Bangalore S3 Smart Irrigation",type:"private",date:"8 Oct"},
+{name:"Bangalore S4 EV Awareness",type:"gov",date:"22 Sept"},
+{name:"Bangalore S5 Tree Corridor",type:"ngo",date:"15 Oct"}
+]
+
+}
+
+function displaySchemes(filter="all"){
+
+schemesContainer.innerHTML=""
+
+const citySchemes = schemesData[city]
+
+citySchemes.forEach(scheme=>{
+
+if(filter==="all" || scheme.type===filter){
+
+const card = document.createElement("div")
+
+card.className = `card scheme ${scheme.type}`
+
+card.innerHTML = `
+
+<h3>${scheme.name}</h3>
+
+<p>Provider : ${scheme.type.toUpperCase()}</p>
+
+<p>Last Date : ${scheme.date}</p>
+
+<button>View Details</button>
+
+`
+
+schemesContainer.appendChild(card)
+
+}
+
+})
+
+}
+
+displaySchemes()
+
+document.getElementById("filter").addEventListener("change",(e)=>{
+
+displaySchemes(e.target.value)
+
+})
+
+})
+
+</script>
 
 </body>
 </html>
