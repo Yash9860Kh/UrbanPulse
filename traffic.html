@@ -9,14 +9,18 @@
 <title>Traffic Map</title>
 
 <link rel="stylesheet" href="css/style.css">
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
 
 <nav class="navbar">
 
-<h1 class="logo">UrbanPulse</h1>
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
 
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
@@ -26,28 +30,55 @@
 <li><a href="traffic.html">Traffic</a></li>
 <li><a href="neighbour.html">Neighbour Corner</a></li>
 </ul>
-<div class="city-display">
-Pune
+<div class="city-display" id="navCityName">
+    Loading...
 </div>
 </nav>
+<div class="traffic-container">
+
 <div id="map"></div>
+
+<div class="traffic-panel">
+
+<h3>Major Traffic Points</h3>
+
+<ul id="trafficList">
+<li>Loading traffic points...</li>
+</ul>
+
+</div>
+
+</div>
 
 
 <script>
 
 function initMap(){
 
+const city = localStorage.getItem("city") || "Pune";
+
+const cityCoords = {
+
+Pune:{lat:18.5204,lng:73.8567},
+Mumbai:{lat:19.0760,lng:72.8777},
+Delhi:{lat:28.7041,lng:77.1025},
+Bangalore:{lat:12.9716,lng:77.5946}
+
+};
+
+const center = cityCoords[city] || cityCoords["Pune"];
+
 const map = new google.maps.Map(
 document.getElementById("map"),
 {
 zoom:12,
-center:{lat:18.5204,lng:73.8567}
+center:center
 }
 )
 
-const trafficLayer = new google.maps.TrafficLayer()
+const trafficLayer = new google.maps.TrafficLayer();
 
-trafficLayer.setMap(map)
+trafficLayer.setMap(map);
 
 }
 
@@ -55,9 +86,86 @@ trafficLayer.setMap(map)
 
 <script src="js/city.js"></script>
 
-<script async
-src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+<script>
+
+const city = localStorage.getItem("city") || "Pune";
+
+const cityCoords = {
+
+Pune:[18.5204,73.8567],
+Mumbai:[19.0760,72.8777],
+Delhi:[28.7041,77.1025],
+Bangalore:[12.9716,77.5946]
+
+};
+
+const trafficPoints = {
+
+Pune:[
+{name:"📍Shivajinagar",coords:[18.5308,73.8475]},
+{name:"📍Hinjewadi IT Park",coords:[18.5912,73.7389]},
+{name:"📍Baner Road",coords:[18.5590,73.7868]},
+{name:"📍Swargate",coords:[18.5018,73.8636]},
+{name:"📍Katraj Chowk",coords:[18.4529,73.8652]}
+],
+
+Mumbai:[
+{name:"📍Bandra",coords:[19.0596,72.8295]},
+{name:"📍Andheri",coords:[19.1136,72.8697]},
+{name:"📍Dadar",coords:[19.0176,72.8478]},
+{name:"📍Sion",coords:[19.0433,72.8610]},
+{name:"📍Powai",coords:[19.1176,72.9060]}
+],
+
+Delhi:[
+{name:"📍Connaught Place",coords:[28.6315,77.2167]},
+{name:"📍Karol Bagh",coords:[28.6519,77.1909]},
+{name:"📍AIIMS",coords:[28.5672,77.2100]},
+{name:"📍Lajpat Nagar",coords:[28.5677,77.2433]},
+{name:"📍Dwarka",coords:[28.5921,77.0460]}
+],
+
+Bangalore:[
+{name:"📍Silk Board",coords:[12.9177,77.6229]},
+{name:"📍Electronic City",coords:[12.8456,77.6603]},
+{name:"📍Whitefield",coords:[12.9698,77.7500]},
+{name:"📍Majestic",coords:[12.9763,77.5713]},
+{name:"📍Indiranagar",coords:[12.9719,77.6412]}
+]
+
+};
+
+const map = L.map('map').setView(cityCoords[city], 12);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+const list = document.getElementById("trafficList");
+
+list.innerHTML="";
+
+trafficPoints[city].forEach(point=>{
+
+L.marker(point.coords)
+.addTo(map)
+.bindPopup(point.name);
+
+const li=document.createElement("li");
+li.innerText=point.name;
+
+list.appendChild(li);
+
+});
+
 </script>
+<script>document.addEventListener("DOMContentLoaded", () => {
+    const city = localStorage.getItem("city") || "Pune";
+    const navCity = document.getElementById("navCityName");
+    if (navCity) {
+        navCity.innerText = city;
+    }
+});</script>
 
 </body>
 </html>
