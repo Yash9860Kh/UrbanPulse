@@ -15,7 +15,10 @@
 
 <nav class="navbar">
 
-<h1 class="logo">UrbanPulse</h1>
+
+<div class="logo">
+URBAN<span>PULSE</span>
+</div>
 
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
@@ -25,8 +28,8 @@
 <li><a href="traffic.html">Traffic</a></li>
 <li><a href="neighbour.html">Neighbour Corner</a></li>
 </ul>
-<div class="city-display">
-Pune
+<div class="city-display" id="navCityName">
+    Loading...
 </div>
 </nav>
 
@@ -43,13 +46,11 @@ resources, and urban development in one place.
 </p>
 
 <select id="citySelect">
-
+<option value="">Select City</option>
 <option>Pune</option>
 <option>Mumbai</option>
 <option>Delhi</option>
 <option>Bangalore</option>
-<option>Hyderabad</option>
-<option>Chennai</option>
 
 </select>
 
@@ -60,6 +61,7 @@ resources, and urban development in one place.
 </section>
 </div>
 <script src="js/main.js"></script>
+
 
 </body>
 </html>
