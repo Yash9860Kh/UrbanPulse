@@ -109,9 +109,11 @@ UrbanPulse
 │   └── style.css
 │
 ├── js
-│   ├── city.js
+│   ├── main.js
 │   ├── city-health.js
-│   └── traffic.js
+│   ├── energy-charts.js
+│   └── neighbour.js
+|   
 │
 └── README.md
 ```
