@@ -60,25 +60,159 @@ reader.readAsDataURL(file)
 }
 
 })
-const coolMap = L.map('coolMap').setView([18.5204,73.8567],12);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(coolMap);
+// 1. Data Definitions
+const greenAreas = {
+    Pune: [
+        {location: "Empress Garden", type: "Garden", oxygen: "High", coords: [18.5007, 73.8777]},
+        {location: "Pashan Lake", type: "Wetland", oxygen: "Medium", coords: [18.5400, 73.7870]},
+        {location: "Baner Hill", type: "Forest", oxygen: "High", coords: [18.5477, 73.7925]},
+        {location: "Taljai Forest", type: "Forest", oxygen: "High", coords: [18.4839, 73.8444]},
+        {location: "Okayama Garden", type: "Garden", oxygen: "Medium", coords: [18.4913, 73.8368]}
+    ],
+    Mumbai: [
+        {location: "Sanjay Gandhi National Park", type: "Forest", oxygen: "High", coords: [19.2215, 72.9131]},
+        {location: "Powai Lake", type: "Wetland", oxygen: "Medium", coords: [19.1256, 72.9051]},
+        {location: "Hanging Gardens", type: "Garden", oxygen: "Medium", coords: [18.9567, 72.8052]},
+        {location: "Aarey Forest", type: "Forest", oxygen: "High", coords: [19.1485, 72.8712]},
+        {location: "Joggers Park", type: "Garden", oxygen: "Medium", coords: [19.0622, 72.8214]}
+    ],
+    Delhi: [
+        {location: "Lodhi Garden", type: "Garden", oxygen: "Medium", coords: [28.5931, 77.2191]},
+        {location: "Yamuna Biodiversity Park", type: "Forest", oxygen: "High", coords: [28.7495, 77.2215]},
+        {location: "Sanjay Lake", type: "Wetland", oxygen: "Medium", coords: [28.6117, 77.3015]},
+        {location: "Nehru Park", type: "Garden", oxygen: "Medium", coords: [28.5933, 77.1957]},
+        {location: "Aravalli Biodiversity Park", type: "Forest", oxygen: "High", coords: [28.5414, 77.1491]}
+    ],
+    Bangalore: [
+        {location: "Cubbon Park", type: "Garden", oxygen: "High", coords: [12.9779, 77.5952]},
+        {location: "Lalbagh Botanical Garden", type: "Garden", oxygen: "High", coords: [12.9507, 77.5848]},
+        {location: "Ulsoor Lake", type: "Wetland", oxygen: "Medium", coords: [12.9815, 77.6229]},
+        {location: "Bannerghatta Forest", type: "Forest", oxygen: "High", coords: [12.8013, 77.5777]},
+        {location: "JP Park", type: "Garden", oxygen: "Medium", coords: [13.0360, 77.5558]}
+    ]
+};
+const cyclingPaths = {
+    Pune: [[[18.5204, 73.8567], [18.5300, 73.8500], [18.5400, 73.8600]]],
+    Mumbai: [[[19.0760, 72.8777], [19.0850, 72.8850]]],
+    Delhi: [[[28.6139, 77.2090], [28.6250, 77.2200]]],
+    Bangalore: [[[12.9716, 77.5946], [12.9850, 77.6050]]]
+};
 
-const greenSpots=[
+// Ensure map instance is global so we can check if it exists
+let coolMap; 
 
-{name:"Saras Baug",coords:[18.5016,73.8545]},
-{name:"Pashan Lake",coords:[18.5400,73.7870]},
-{name:"Empress Garden",coords:[18.5007,73.8777]}
+function openModule(id, event) {
+    // 1. Hide all modules and deactivate menu items
+    document.querySelectorAll(".module").forEach(m => m.classList.remove("active"));
+    document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active"));
 
-]
+    // 2. Show the target module
+    const target = document.getElementById(id);
+    if (target) {
+        target.classList.add("active");
+    }
 
-greenSpots.forEach(spot=>{
+    // 3. Highlight the menu item if event exists
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add("active");
+    }
 
-L.marker(spot.coords)
-.addTo(coolMap)
-.bindPopup("🌳 "+spot.name)
+    // 4. If we open the 'cool' module, trigger the map
+    if (id === 'cool') {
+        initCoolMap();
+    }
+}
 
-})
+function initCoolMap() {
+    // Get city from localStorage (fallback to Pune)
+    const userCity = localStorage.getItem('city') || 'Pune';
+    const citySpots = greenAreas[userCity] || greenAreas['Pune'];
+
+    // Initialize map if it doesn't exist
+    if (!coolMap) {
+        coolMap = L.map('coolMap').setView(citySpots[0].coords, 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(coolMap);
+    } else {
+        // If it exists, just move the view (Refresh logic)
+        coolMap.setView(citySpots[0].coords, 12);
+        
+        // Clear old markers/lines before re-adding
+        coolMap.eachLayer((layer) => {
+            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                coolMap.removeLayer(layer);
+            }
+        });
+    }
+
+    // Add Green Markers
+    citySpots.forEach(spot => {
+        L.marker(spot.coords)
+            .addTo(coolMap)
+            .bindPopup(`<b>🌳 ${spot.location}</b><br>Oxygen: ${spot.oxygen}`);
+    });
+
+    // Add Cycling Paths
+    if (cyclingPaths[userCity]) {
+        cyclingPaths[userCity].forEach(path => {
+            L.polyline(path, {
+                color: '#2ecc71', // Green for eco-friendly paths
+                weight: 5,
+                dashArray: '10, 10',
+                opacity: 0.8
+            }).addTo(coolMap).bindPopup("🚴 Safe Cycling Route");
+        });
+    }
+
+    // IMPORTANT: Fix for "Gray Map" or invisible map in dashboard tabs
+    setTimeout(() => {
+        coolMap.invalidateSize();
+    }, 300);
+}
+
+// 3. Map Logic
+function initCoolMap() {
+    const userCity = localStorage.getItem('city') || 'Pune';
+    const citySpots = greenAreas[userCity] || greenAreas['Pune'];
+
+    // Initialize map only once
+    if (!coolMap) {
+        coolMap = L.map('coolMap').setView(citySpots[0].coords, 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(coolMap);
+    } else {
+        // Move map and clear markers if city changed
+        coolMap.setView(citySpots[0].coords, 12);
+        coolMap.eachLayer((layer) => {
+            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                coolMap.removeLayer(layer);
+            }
+        });
+    }
+
+    // Add Markers for Green Spots
+    citySpots.forEach(spot => {
+        L.marker(spot.coords)
+            .addTo(coolMap)
+            .bindPopup(`<b>🌳 ${spot.location}</b><br>Oxygen: ${spot.oxygen}`);
+    });
+
+    // Add Cycling Paths (Dashed Blue Lines)
+    if (cyclingPaths[userCity]) {
+        cyclingPaths[userCity].forEach(path => {
+            L.polyline(path, {
+                color: '#3498db',
+                weight: 5,
+                dashArray: '10, 10',
+                opacity: 0.8
+            }).addTo(coolMap).bindPopup("🚴 Cycling Path");
+        });
+    }
+
+    // CRITICAL: This fixes the "Hidden Map" visibility bug
+    setTimeout(() => {
+        coolMap.invalidateSize();
+    }, 250);
+}
 function openShareForm(){
 document.getElementById("shareForm").style.display="block"
 }
