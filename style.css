@@ -853,3 +853,8 @@ font-size:15px;
 cursor:pointer;
 
 }
+#coolMap {
+    height: 400px;
+    width: 100%;
+    z-index: 1; /* Ensures it stays below popups but above backgrounds */
+}
