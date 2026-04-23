@@ -101,19 +101,17 @@ Location and photo will help city authorities resolve them quickly.
 <!-- COOL SPOTS -->
 
 <div id="cool" class="module">
+    <h2>Find Cool Areas</h2>
+    <p class="module-text">
+        UrbanPulse helps citizens find shaded parks, gardens and cooling centers during extreme heat.
+    </p>
 
-<h2>Find Cool Areas</h2>
+    <div class="map-container" style="position: relative;">
+        <div id="coolMap" style="height:400px; width:100%; border-radius: 8px; border: 1px solid #ddd;"></div>
+        
+        </div>
 
-<p class="module-text">
-UrbanPulse helps citizens find shaded parks, gardens and cooling centers during extreme heat.
-</p>
-
-<div class="map-placeholder">
-<div id="coolMap" style="height:400px"></div>🌳 Cooling Map Placeholder
-</div>
-
-<button>View Map</button>
-
+    <button onclick="initCoolMap()" style="margin-top: 10px;">Refresh Map</button>
 </div>
 
 
@@ -135,6 +133,9 @@ Restaurants and citizens can donate excess food, compost, tools and other reusab
 <p>
 📍 500 meters away  
 Daily Greens Cafe
+</p>
+<p>
+    📞+91 9876543210
 </p>
 
 <button>Claim</button>
@@ -161,19 +162,13 @@ Daily Greens Cafe
 </div>
 
 
-
-<!-- CYCLING -->
-
+<!-- CYCLE ROUTES -->
 <div id="cycle" class="module">
-
-<h2>Safe Cycling Routes</h2>
-
-<p class="module-text">
-See which routes are safest for cycling and help vote for new bike lanes in your city.
-</p>
-
-<button>View Routes</button>
-
+    <h2>Safe Cycling Routes</h2>
+    <p class="module-text">
+        See which routes are safest for cycling and help vote for new bike lanes.
+    </p>
+    <button onclick="openModule('cool', event)">View Routes on Map</button>
 </div>
 
 
