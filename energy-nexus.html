@@ -22,15 +22,24 @@ URBAN<span>PULSE</span>
 </div>
 
 <ul class="nav-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="city-health.html">City Health</a></li>
-<li><a href="energy-nexus.html">Energy Nexus</a></li>
-<li><a href="schemes.html">Schemes</a></li>
-<li><a href="traffic.html">Traffic</a></li>
-<li><a href="neighbour.html">Neighbour Corner</a></li>
+<li><a href="index.html" data-i18n="nav.home">Home</a></li>
+<li><a href="city-health.html" data-i18n="nav.city_health">City Health</a></li>
+<li><a href="energy-nexus.html" data-i18n="nav.energy_nexus">Energy Nexus</a></li>
+<li><a href="schemes.html" data-i18n="nav.schemes">Schemes</a></li>
+<li><a href="traffic.html" data-i18n="nav.traffic">Traffic</a></li>
+<li><a href="neighbour.html" data-i18n="nav.neighbour">Neighbour Corner</a></li>
+<li><a href="sustainability.html" data-i18n="nav.sustainability">Sustainability Tools</a></li>
 </ul>
+
+<div class="nav-controls">
+<div class="search-container">
+<input type="text" id="globalSearch" placeholder="Search UrbanPulse..." data-i18n-placeholder="nav.search_placeholder">
+<button id="searchBtn">🔍</button>
+</div>
+
 <div class="city-display" id="navCityName">
     Loading...
+</div>
 </div>
 </nav>
 
@@ -95,6 +104,7 @@ URBAN<span>PULSE</span>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/energy-charts.js"></script>
+<script src="js/search.js"></script>
 <script>document.addEventListener("DOMContentLoaded", () => {
     const city = localStorage.getItem("city") || "Pune";
     const navCity = document.getElementById("navCityName");

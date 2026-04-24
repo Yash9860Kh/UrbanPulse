@@ -254,3 +254,125 @@ document.getElementById("itemPhone").value = ""
 document.getElementById("shareForm").style.display = "none"
 
 }
+
+/* EMERGENCY CONTACTS FUNCTIONALITY */
+
+// Emergency contacts data by city
+const emergencyContacts = {
+    Pune: {
+        police: { number: "100", local: "+91-20-2612-2222", description: "Police Control Room" },
+        ambulance: { number: "102", local: "+91-20-2612-3456", description: "Medical Emergency" },
+        fire: { number: "101", local: "+91-20-2612-6789", description: "Fire Brigade" },
+        disaster: { number: "108", local: "+91-20-1070", description: "Disaster Management" },
+        traffic: { number: "103", local: "+91-20-2612-4567", description: "Traffic Police" },
+        helpline: { number: "181", local: "+91-20-2550-1234", description: "Women Helpline" },
+        utilities: { number: "1912", local: "+91-20-2612-8910", description: "Electricity Complaint" },
+        animal: { number: "14410", local: "+91-20-2612-1111", description: "Animal Welfare" }
+    },
+    Mumbai: {
+        police: { number: "100", local: "+91-22-2262-0123", description: "Police Control Room" },
+        ambulance: { number: "102", local: "+91-22-2262-3456", description: "Medical Emergency" },
+        fire: { number: "101", local: "+91-22-2262-6789", description: "Fire Brigade" },
+        disaster: { number: "108", local: "+91-22-1070", description: "Disaster Management" },
+        traffic: { number: "103", local: "+91-22-2262-4567", description: "Traffic Police" },
+        helpline: { number: "181", local: "+91-22-2262-1234", description: "Women Helpline" },
+        utilities: { number: "1912", local: "+91-22-2262-8910", description: "Electricity Complaint" },
+        animal: { number: "14410", local: "+91-22-2262-1111", description: "Animal Welfare" }
+    },
+    Delhi: {
+        police: { number: "100", local: "+91-11-2345-6789", description: "Police Control Room" },
+        ambulance: { number: "102", local: "+91-11-2345-3456", description: "Medical Emergency" },
+        fire: { number: "101", local: "+91-11-2345-6789", description: "Fire Brigade" },
+        disaster: { number: "108", local: "+91-11-1070", description: "Disaster Management" },
+        traffic: { number: "103", local: "+91-11-2345-4567", description: "Traffic Police" },
+        helpline: { number: "181", local: "+91-11-2345-1234", description: "Women Helpline" },
+        utilities: { number: "1912", local: "+91-11-2345-8910", description: "Electricity Complaint" },
+        animal: { number: "14410", local: "+91-11-2345-1111", description: "Animal Welfare" }
+    },
+    Bangalore: {
+        police: { number: "100", local: "+91-80-2294-3456", description: "Police Control Room" },
+        ambulance: { number: "102", local: "+91-80-2294-3456", description: "Medical Emergency" },
+        fire: { number: "101", local: "+91-80-2294-6789", description: "Fire Brigade" },
+        disaster: { number: "108", local: "+91-80-1070", description: "Disaster Management" },
+        traffic: { number: "103", local: "+91-80-2294-4567", description: "Traffic Police" },
+        helpline: { number: "181", local: "+91-80-2294-1234", description: "Women Helpline" },
+        utilities: { number: "1912", local: "+91-80-2294-8910", description: "Electricity Complaint" },
+        animal: { number: "14410", local: "+91-80-2294-1111", description: "Animal Welfare" }
+    }
+};
+
+// Function to populate emergency contacts
+function loadEmergencyContacts() {
+    const city = localStorage.getItem('city') || 'Pune';
+    const contacts = emergencyContacts[city] || emergencyContacts['Pune'];
+    const container = document.getElementById('emergencyContacts');
+
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const contactTypes = {
+        police: { icon: '👮', title: 'Police' },
+        ambulance: { icon: '🚑', title: 'Medical/Ambulance' },
+        fire: { icon: '🚒', title: 'Fire & Rescue' },
+        disaster: { icon: '🌊', title: 'Disaster Management' },
+        traffic: { icon: '🚔', title: 'Traffic Police' },
+        helpline: { icon: '📞', title: 'Community Helpline' },
+        utilities: { icon: '⚡', title: 'Utilities' },
+        animal: { icon: '🐾', title: 'Animal Welfare' }
+    };
+
+    Object.keys(contacts).forEach(key => {
+        const contact = contacts[key];
+        const type = contactTypes[key];
+
+        const card = document.createElement('div');
+        card.className = 'emergency-card';
+
+        card.innerHTML = `
+            <h3>${type.icon} ${type.title}</h3>
+            <p class="emergency-number">${contact.number}</p>
+            <p>${contact.description}</p>
+            <p>Local: ${contact.local}</p>
+            <button onclick="callEmergency('${contact.number}')">Call</button>
+            <button onclick="copyEmergencyNumber('${contact.local}')">Copy</button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+// Function to call emergency number
+function callEmergency(number) {
+    if (confirm(`Call emergency number ${number}?`)) {
+        window.location.href = `tel:${number}`;
+    }
+}
+
+// Function to copy emergency number
+function copyEmergencyNumber(number) {
+    navigator.clipboard.writeText(number).then(() => {
+        alert('Emergency number copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = number;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('Emergency number copied to clipboard!');
+    });
+}
+
+// Initialize emergency contacts when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Load emergency contacts if on neighbour page
+    if (document.getElementById('emergencyContacts')) {
+        loadEmergencyContacts();
+    }
+});
+
+// Update emergency contacts when city changes
+window.addEventListener('cityChanged', loadEmergencyContacts);

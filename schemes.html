@@ -22,31 +22,78 @@ URBAN<span>PULSE</span>
 </div>
 
 <ul class="nav-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="city-health.html">City Health</a></li>
-<li><a href="energy-nexus.html">Energy Nexus</a></li>
-<li><a href="schemes.html">Schemes</a></li>
-<li><a href="traffic.html">Traffic</a></li>
-<li><a href="neighbour.html">Neighbour Corner</a></li>
+<li><a href="index.html" data-i18n="nav.home">Home</a></li>
+<li><a href="city-health.html" data-i18n="nav.city_health">City Health</a></li>
+<li><a href="energy-nexus.html" data-i18n="nav.energy_nexus">Energy Nexus</a></li>
+<li><a href="schemes.html" data-i18n="nav.schemes">Schemes</a></li>
+<li><a href="traffic.html" data-i18n="nav.traffic">Traffic</a></li>
+<li><a href="neighbour.html" data-i18n="nav.neighbour">Neighbour Corner</a></li>
+<li><a href="sustainability.html" data-i18n="nav.sustainability">Sustainability Tools</a></li>
 </ul>
+
+<div class="nav-controls">
+<div class="search-container">
+<input type="text" id="globalSearch" placeholder="Search UrbanPulse..." data-i18n-placeholder="nav.search_placeholder">
+<button id="searchBtn">🔍</button>
+</div>
+
 <div class="city-display" id="navCityName">
     Loading...
+</div>
 </nav>
 
 <section class="container">
 
-<h2 class="page-title">Sustainability Schemes</h2>
+<h2 class="page-title" data-i18n="schemes.title">Sustainability Schemes</h2>
 
+<!-- Advanced Filters -->
+<div class="advanced-filters">
+<h3 data-i18n="schemes.advanced_filters">Advanced Filters</h3>
 
-<select id="filter">
+<div class="filter-row">
+<div class="filter-group">
+<label data-i18n="schemes.budget_range">Budget Range</label>
+<input type="range" id="budgetRange" min="0" max="100000000" value="50000000" step="5000000">
+<span id="budgetValue">₹50 Cr</span>
+</div>
 
-<option value="all">All</option>
-<option value="gov">Government</option>
-<option value="ngo">NGO</option>
-<option value="private">Private</option>
-
+<div class="filter-group">
+<label data-i18n="schemes.timeline">Timeline</label>
+<select id="timelineFilter">
+<option value="all" data-i18n="schemes.filter_all">All</option>
+<option value="immediate" data-i18n="schemes.immediate">Immediate</option>
+<option value="6 months" data-i18n="schemes.months_6">6 months</option>
+<option value="1 year" data-i18n="schemes.year_1">1 year</option>
+<option value="2+ years" data-i18n="schemes.years_2_plus">2+ years</option>
 </select>
+</div>
 
+<div class="filter-group">
+<label data-i18n="schemes.impact">Impact Level</label>
+<select id="impactFilter">
+<option value="all" data-i18n="schemes.filter_all">All</option>
+<option value="low" data-i18n="schemes.low">Low</option>
+<option value="medium" data-i18n="schemes.medium">Medium</option>
+<option value="high" data-i18n="schemes.high">High</option>
+</select>
+</div>
+</div>
+
+<div class="filter-row">
+<div class="filter-group">
+<label>Type</label>
+<select id="typeFilter">
+<option value="all" data-i18n="schemes.filter_all">All</option>
+<option value="gov" data-i18n="schemes.filter_gov">Government</option>
+<option value="ngo" data-i18n="schemes.filter_ngo">NGO</option>
+<option value="private" data-i18n="schemes.filter_private">Private</option>
+</select>
+</div>
+
+<button id="applyFilters" onclick="applyFilters()">Apply Filters</button>
+<button id="resetFilters" onclick="resetFilters()">Reset</button>
+</div>
+</div>
 
 <div class="card-grid" id="schemesContainer">
 
@@ -69,40 +116,66 @@ const schemesContainer = document.getElementById("schemesContainer")
 const schemesData = {
 
 Pune:[
-{name:"Pune S1 Solar Homes",type:"gov",date:"30 Aug"},
-{name:"Pune S2 Green Transport",type:"ngo",date:"12 Sept"},
-{name:"Pune S3 Water Saving",type:"private",date:"5 Oct"},
-{name:"Pune S4 Clean Streets",type:"gov",date:"20 Sept"},
-{name:"Pune S5 Tree Boost",type:"ngo",date:"10 Oct"}
+{name:"Pune S1 Solar Homes",type:"gov",date:"30 Aug", budget:50000000, timeline:"6 months", impact:"High", description:"Residential solar panel installation program for homes"},
+{name:"Pune S2 Green Transport",type:"ngo",date:"12 Sept", budget:15000000, timeline:"3 months", impact:"Medium", description:"Electric vehicle promotion and green transport initiatives"},
+{name:"Pune S3 Water Saving",type:"private",date:"5 Oct", budget:8000000, timeline:"1 year", impact:"Medium", description:"Smart irrigation systems and water conservation programs"},
+{name:"Pune S4 Clean Streets",type:"gov",date:"20 Sept", budget:25000000, timeline:"6 months", impact:"High", description:"Street cleaning and waste management improvement"},
+{name:"Pune S5 Tree Boost",type:"ngo",date:"10 Oct", budget:12000000, timeline:"1 year", impact:"High", description:"Urban tree plantation and green space development"}
 ],
 
 Mumbai:[
-{name:"Mumbai S1 Solar Homes",type:"gov",date:"25 Aug"},
-{name:"Mumbai S2 Coastal Clean",type:"ngo",date:"15 Sept"},
-{name:"Mumbai S3 Smart Drainage",type:"private",date:"2 Oct"},
-{name:"Mumbai S4 EV Promotion",type:"gov",date:"18 Sept"},
-{name:"Mumbai S5 Mangrove Protection",type:"ngo",date:"28 Sept"}
+{name:"Mumbai S1 Solar Homes",type:"gov",date:"25 Aug", budget:75000000, timeline:"1 year", impact:"High", description:"Large-scale solar installation for residential and commercial buildings"},
+{name:"Mumbai S2 Coastal Clean",type:"ngo",date:"15 Sept", budget:20000000, timeline:"6 months", impact:"High", description:"Beach and coastal area cleaning and protection programs"},
+{name:"Mumbai S3 Smart Drainage",type:"private",date:"2 Oct", budget:35000000, timeline:"1 year", impact:"High", description:"Advanced drainage systems to prevent flooding"},
+{name:"Mumbai S4 EV Promotion",type:"gov",date:"18 Sept", budget:40000000, timeline:"6 months", impact:"Medium", description:"Electric vehicle infrastructure and awareness campaigns"},
+{name:"Mumbai S5 Mangrove Protection",type:"ngo",date:"28 Sept", budget:18000000, timeline:"2 years", impact:"High", description:"Mangrove restoration and coastal ecosystem protection"}
 ],
 
 Delhi:[
-{name:"Delhi S1 Solar Homes",type:"gov",date:"30 Aug"},
-{name:"Delhi S2 Air Quality Drive",type:"ngo",date:"12 Sept"},
-{name:"Delhi S3 Smart Water",type:"private",date:"3 Oct"},
-{name:"Delhi S4 Green Schools",type:"gov",date:"15 Sept"},
-{name:"Delhi S5 Tree Shield",type:"ngo",date:"10 Oct"}
+{name:"Delhi S1 Solar Homes",type:"gov",date:"30 Aug", budget:60000000, timeline:"6 months", impact:"High", description:"Solar panel installation for homes and apartments"},
+{name:"Delhi S2 Air Quality Drive",type:"ngo",date:"12 Sept", budget:30000000, timeline:"1 year", impact:"High", description:"Air pollution reduction and clean air initiatives"},
+{name:"Delhi S3 Smart Water",type:"private",date:"3 Oct", budget:22000000, timeline:"6 months", impact:"Medium", description:"Smart water management and conservation systems"},
+{name:"Delhi S4 Green Schools",type:"gov",date:"15 Sept", budget:15000000, timeline:"3 months", impact:"Medium", description:"Green infrastructure development in educational institutions"},
+{name:"Delhi S5 Tree Shield",type:"ngo",date:"10 Oct", budget:25000000, timeline:"1 year", impact:"High", description:"Urban forestation and heat island reduction programs"}
 ],
 
 Bangalore:[
-{name:"Bangalore S1 Solar Homes",type:"gov",date:"28 Aug"},
-{name:"Bangalore S2 Lake Revival",type:"ngo",date:"18 Sept"},
-{name:"Bangalore S3 Smart Irrigation",type:"private",date:"8 Oct"},
-{name:"Bangalore S4 EV Awareness",type:"gov",date:"22 Sept"},
-{name:"Bangalore S5 Tree Corridor",type:"ngo",date:"15 Oct"}
+{name:"Bangalore S1 Solar Homes",type:"gov",date:"28 Aug", budget:55000000, timeline:"6 months", impact:"High", description:"Solar energy adoption program for residential buildings"},
+{name:"Bangalore S2 Lake Revival",type:"ngo",date:"18 Sept", budget:28000000, timeline:"2 years", impact:"High", description:"Lake restoration and water body conservation"},
+{name:"Bangalore S3 Smart Irrigation",type:"private",date:"8 Oct", budget:16000000, timeline:"6 months", impact:"Medium", description:"Precision irrigation systems for agriculture and gardens"},
+{name:"Bangalore S4 EV Awareness",type:"gov",date:"22 Sept", budget:12000000, timeline:"3 months", impact:"Low", description:"Electric vehicle awareness and adoption campaigns"},
+{name:"Bangalore S5 Tree Corridor",type:"ngo",date:"15 Oct", budget:20000000, timeline:"1 year", impact:"High", description:"Green corridor development and tree plantation drives"}
 ]
 
 }
 
-function displaySchemes(filter="all"){
+// Budget range slider functionality
+document.getElementById('budgetRange').addEventListener('input', function() {
+    const value = this.value;
+    const crores = (value / 10000000).toFixed(1);
+    document.getElementById('budgetValue').textContent = '₹' + crores + ' Cr';
+});
+
+function applyFilters(){
+    const budgetMax = parseInt(document.getElementById('budgetRange').value);
+    const timeline = document.getElementById('timelineFilter').value;
+    const impact = document.getElementById('impactFilter').value;
+    const type = document.getElementById('typeFilter').value;
+
+    displaySchemes(type, budgetMax, timeline, impact);
+}
+
+function resetFilters(){
+    document.getElementById('budgetRange').value = 50000000;
+    document.getElementById('budgetValue').textContent = '₹50 Cr';
+    document.getElementById('timelineFilter').value = 'all';
+    document.getElementById('impactFilter').value = 'all';
+    document.getElementById('typeFilter').value = 'all';
+
+    displaySchemes('all');
+}
+
+function displaySchemes(filter="all", budgetMax=100000000, timelineFilter="all", impactFilter="all"){
 
 schemesContainer.innerHTML=""
 
@@ -110,7 +183,12 @@ const citySchemes = schemesData[city]
 
 citySchemes.forEach(scheme=>{
 
-if(filter==="all" || scheme.type===filter){
+const matchesType = filter==="all" || scheme.type===filter;
+const matchesBudget = scheme.budget <= budgetMax;
+const matchesTimeline = timelineFilter==="all" || scheme.timeline===timelineFilter;
+const matchesImpact = impactFilter==="all" || scheme.impact.toLowerCase()===impactFilter;
+
+if(matchesType && matchesBudget && matchesTimeline && matchesImpact){
 
 const card = document.createElement("div")
 
@@ -120,7 +198,15 @@ card.innerHTML = `
 
 <h3>${scheme.name}</h3>
 
+<p>${scheme.description}</p>
+
 <p>Provider : ${scheme.type.toUpperCase()}</p>
+
+<p>Budget : ₹${(scheme.budget/10000000).toFixed(1)} Cr</p>
+
+<p>Timeline : ${scheme.timeline}</p>
+
+<p>Impact : <span style="color: ${scheme.impact === 'High' ? '#22c55e' : scheme.impact === 'Medium' ? '#f59e0b' : '#6b7280'}">${scheme.impact}</span></p>
 
 <p>Last Date : ${scheme.date}</p>
 
@@ -136,17 +222,23 @@ schemesContainer.appendChild(card)
 
 }
 
+// Initialize budget display
+document.getElementById('budgetValue').textContent = '₹50 Cr';
+
 displaySchemes()
 
-document.getElementById("filter").addEventListener("change",(e)=>{
-
+// Legacy filter support (for backward compatibility)
+const oldFilter = document.getElementById("filter");
+if(oldFilter){
+oldFilter.addEventListener("change",(e)=>{
 displaySchemes(e.target.value)
-
 })
+}
 
 })
 
 </script>
+<script src="js/search.js"></script>
 
 </body>
 </html>

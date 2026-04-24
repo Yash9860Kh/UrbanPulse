@@ -22,56 +22,65 @@ URBAN<span>PULSE</span>
 </div>
 
 <ul class="nav-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="city-health.html">City Health</a></li>
-<li><a href="energy-nexus.html">Energy Nexus</a></li>
-<li><a href="schemes.html">Schemes</a></li>
-<li><a href="traffic.html">Traffic</a></li>
-<li><a href="neighbour.html">Neighbour Corner</a></li>
+<li><a href="index.html" data-i18n="nav.home">Home</a></li>
+<li><a href="city-health.html" data-i18n="nav.city_health">City Health</a></li>
+<li><a href="energy-nexus.html" data-i18n="nav.energy_nexus">Energy Nexus</a></li>
+<li><a href="schemes.html" data-i18n="nav.schemes">Schemes</a></li>
+<li><a href="traffic.html" data-i18n="nav.traffic">Traffic</a></li>
+<li><a href="neighbour.html" data-i18n="nav.neighbour">Neighbour Corner</a></li>
+<li><a href="sustainability.html" data-i18n="nav.sustainability">Sustainability Tools</a></li>
 </ul>
+
+<div class="nav-controls">
+<div class="search-container">
+<input type="text" id="globalSearch" placeholder="Search UrbanPulse..." data-i18n-placeholder="nav.search_placeholder">
+<button id="searchBtn">🔍</button>
+</div>
+
 <div class="city-display" id="navCityName">
     Loading...
+</div>
 </div>
 </nav>
 <div class="container">
 
 <section class="container">
 
-<h2 class="page-title">City Health Dashboard</h2>
+<h2 class="page-title" data-i18n="city_health.title">City Health Dashboard</h2>
 
 
 <div class="card-grid">
 
 <div class="card">
-<h3>Weather</h3>
+<h3 data-i18n="city_health.weather">Weather</h3>
 <p id="weatherData">Loading...</p>
 </div>
 
 <div class="card">
-<h3>Air Quality Index</h3>
+<h3 data-i18n="city_health.aqi">Air Quality Index</h3>
 <p id="aqiData">Loading...</p>
 </div>
 
 <div class="card">
-<h3>CO₂ Emissions</h3>
+<h3 data-i18n="city_health.co2">CO₂ Emissions</h3>
 <p id="co2Data">Loading...</p>
 </div>
 <div class="card">
-<h3>Sustainability Score</h3>
+<h3 data-i18n="city_health.sustainability_score">Sustainability Score</h3>
 <p class="score" id="scoreData">Loading...</p>
 </div>
 </div>
 <br><br>
 
-<h2 class="page-title">Green Areas & Oxygen Sources</h2>
+<h2 class="page-title" data-i18n="city_health.green_areas">Green Areas & Oxygen Sources</h2>
 
 <table>
 
 <thead>
 <tr>
-<th>Location</th>
-<th>Type</th>
-<th>Oxygen Output</th>
+<th data-i18n="city_health.location">Location</th>
+<th data-i18n="city_health.type">Type</th>
+<th data-i18n="city_health.oxygen_output">Oxygen Output</th>
 </tr>
 </thead>
 
@@ -82,6 +91,7 @@ URBAN<span>PULSE</span>
 </section>
 </div>
 <script src="js/city-health.js"></script>
+<script src="js/search.js"></script>
 <script>document.addEventListener("DOMContentLoaded", () => {
     const city = localStorage.getItem("city") || "Pune";
     const navCity = document.getElementById("navCityName");

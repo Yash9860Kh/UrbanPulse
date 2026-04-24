@@ -23,16 +23,25 @@ URBAN<span>PULSE</span>
 </div>
 
 <ul class="nav-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="city-health.html">City Health</a></li>
-<li><a href="energy-nexus.html">Energy Nexus</a></li>
-<li><a href="schemes.html">Schemes</a></li>
-<li><a href="traffic.html">Traffic</a></li>
-<li><a href="neighbour.html">Neighbour Corner</a></li>
+<li><a href="index.html" data-i18n="nav.home">Home</a></li>
+<li><a href="city-health.html" data-i18n="nav.city_health">City Health</a></li>
+<li><a href="energy-nexus.html" data-i18n="nav.energy_nexus">Energy Nexus</a></li>
+<li><a href="schemes.html" data-i18n="nav.schemes">Schemes</a></li>
+<li><a href="traffic.html" data-i18n="nav.traffic">Traffic</a></li>
+<li><a href="neighbour.html" data-i18n="nav.neighbour">Neighbour Corner</a></li>
+<li><a href="sustainability.html" data-i18n="nav.sustainability">Sustainability Tools</a></li>
 </ul>
+
+<div class="nav-controls">
+<div class="search-container">
+<input type="text" id="globalSearch" placeholder="Search UrbanPulse..." data-i18n-placeholder="nav.search_placeholder">
+<button id="searchBtn">🔍</button>
+</div>
 
 <div class="city-display" id="navCityName">
     Loading...
+</div>
+</div>
 
 </nav>
 
@@ -66,6 +75,10 @@ URBAN<span>PULSE</span>
 
 <div class="menu-item" onclick="openModule('solar',event)">
 ☀ Community Solar
+</div>
+
+<div class="menu-item" onclick="openModule('emergency',event)">
+🚨 Emergency Contacts
 </div>
 
 </div>
@@ -196,12 +209,38 @@ Join neighbours to install solar panels together and reduce electricity costs.
 </div>
 
 
+<!-- EMERGENCY CONTACTS -->
+
+<div id="emergency" class="module">
+
+<h2 data-i18n="neighbour.emergency_contacts">Emergency Contacts</h2>
+
+<p class="module-text">
+Quick access to emergency services in your city. Call immediately in case of emergency.
+</p>
+
+<div class="emergency-grid" id="emergencyContacts">
+
+<!-- Emergency contacts will be populated by JavaScript -->
+
+</div>
+
+</div>
+
+
 </div>
 
 </div>
 
 </div>
 <script src="js/neighbour.js"></script>
-
+<script src="js/search.js"></script>
+<script>document.addEventListener("DOMContentLoaded", () => {
+    const city = localStorage.getItem("city") || "Pune";
+    const navCity = document.getElementById("navCityName");
+    if (navCity) {
+        navCity.innerText = city;
+    }
+});</script>
 </body>
 </html>

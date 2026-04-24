@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>UrbanPulse</title>
+<title>Search Results</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -42,36 +42,40 @@ URBAN<span>PULSE</span>
 </div>
 </nav>
 
-<div class="conatiner">
-<section class="hero">
+<div class="container">
 
-<div class="hero-content">
+<section class="container">
 
-<h1 data-i18n="home.welcome">Welcome to UrbanPulse</h1>
+<h2 class="page-title" data-i18n="search.title">Search Results</h2>
 
-<p data-i18n="home.description">
-Monitor your city's sustainability, environment,
-resources, and urban development in one place.
-</p>
+<div class="search-input-section">
+<input type="text" id="searchQuery" placeholder="Enter your search query..." data-i18n-placeholder="nav.search_placeholder">
+<button onclick="performSearch()" data-i18n="search.global_search">Global Search</button>
+</div>
 
-<select id="citySelect">
-<option value="" data-i18n="home.select_city">Select City</option>
-<option>Pune</option>
-<option>Mumbai</option>
-<option>Delhi</option>
-<option>Bangalore</option>
-
-</select>
-
-<button onclick="enterCity()" data-i18n="home.enter_dashboard">Enter Dashboard</button>
-
+<div id="searchResults">
+<!-- Search results will be displayed here -->
 </div>
 
 </section>
 </div>
-<script src="js/main.js"></script>
-<script src="js/search.js"></script>
 
+<script src="js/search.js"></script>
+<script>document.addEventListener("DOMContentLoaded", () => {
+    const city = localStorage.getItem("city") || "Pune";
+    const navCity = document.getElementById("navCityName");
+    if (navCity) {
+        navCity.innerText = city;
+    }
+
+    // Check for search query in URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    if (query) {
+        document.getElementById('searchQuery').value = query;
+        performSearch(query);
+    }
+});</script>
 
 </body>
 </html>
