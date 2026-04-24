@@ -73,7 +73,7 @@ table.innerHTML += row;
 // WEATHER API
 // =========================
 
-const apiKey = "076777de2252f718d7b2a97c81aa9d18";
+const apiKey = "API_KEY";
 
 const weatherUrl =
 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
@@ -177,7 +177,7 @@ try {
     console.warn('OpenWeatherMap air pollution failed, falling back to WAQI if available:', error);
 
     try {
-        const aqiToken = "6244ae3c82565c374fd024e143372e219decf13d";
+        const aqiToken = "API_KEY";
         const aqiUrl = `https://api.waqi.info/feed/${city}/?token=${aqiToken}`;
         const res = await fetch(aqiUrl);
         const aqiData = await res.json();
